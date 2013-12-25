@@ -28,7 +28,7 @@ class Dingo
     end
 
     def aussie_words(source_words)
-      @aussie_words = source_words.select { |w| w.length == 1 }
+      @aussie_words = source_words.select { |w| !w.include?(" ") }
     end
 
     def aussie_sentences(source_words, random)
