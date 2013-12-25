@@ -21,6 +21,14 @@ class Dingo
       end
     end
 
+    def paragraphs(random: Random.new, source_words: aussie_copy)
+      Enumerator.new do |y|
+        loop do
+          y.yield aussie_paragraphs(source_words, random)
+        end
+      end
+    end
+
     private
 
     def aussie_copy
@@ -33,6 +41,10 @@ class Dingo
 
     def aussie_sentences(source_words, random)
       @aussie_sentences = sentencize(source_words, random)
+    end
+
+    def aussie_paragraphs(source_words, random)
+      @aussie_paragraphs = sentences.take(4).join(" ")
     end
 
     def sentencize(copy, random)

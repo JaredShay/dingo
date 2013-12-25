@@ -22,4 +22,8 @@ class DingoTest < MiniTest::Unit::TestCase
   def test_makes_sentences_with_capital_letters
     assert_equal "A", Dingo.sentences(source_words: ["abcdef"]).take(1).first[0]
   end
+
+  def test_makes_paragraphs
+    assert_equal true, !Dingo.paragraphs.take(1)[0].match(/(.*\..*){4}/)[0].empty?
+  end
 end
