@@ -2,7 +2,7 @@ require 'enumerator'
 
 class Dingo
   DEFAULT_WORD_PATH = "../../dingo.txt"
-  SENTENCE_LENGTH   = 8
+  SENTENCE_LENGTH   = 6
 
   class << self
     def words(random: Random.new, source_words: aussie_copy)
