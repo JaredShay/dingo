@@ -41,15 +41,15 @@ dog on the tucker box
 'burbs
 Holden
 Ford
-Bogans
+bogan
 ACDC
-Un-australian
+un-australian
 swing the willow at it
 Lleyton Hewitt
 Pat Rafter
 Bonds
 Vegemite
-Sicky
+sicky
 Pharlap
 Sam Newman
 Eddie MacGuire
@@ -123,7 +123,7 @@ Sean Michaleff
 Boonie
 smuggling budgies
 stealing land
-getting drunk in Bali
+getting inappropriately drunk in Bali
 Tony Lockett
 Wayne Carey
 Gary Ablett
@@ -170,3 +170,4 @@ one hand one bounce
 Cricket
 Waltzing Matilda
 Advance Australia Fair
+eating our national animal
