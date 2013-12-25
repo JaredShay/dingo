@@ -40,7 +40,8 @@ class Dingo
 
       while !copy.empty?
         copy = copy.sample(copy.length, random: random)
-        sentences << copy.shift(SENTENCE_LENGTH).join(" ").capitalize + "."
+        copy[0].capitalize!
+        sentences << copy.shift(SENTENCE_LENGTH).join(" ") + "."
       end
 
       sentences
