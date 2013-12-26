@@ -26,4 +26,8 @@ class DingoTest < MiniTest::Unit::TestCase
   def test_makes_paragraphs
     assert_equal true, !Dingo.paragraphs.take(1)[0].match(/(.*\..*){4}/)[0].empty?
   end
+
+  def setup
+    Dingo.reset
+  end
 end
