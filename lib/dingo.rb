@@ -1,7 +1,7 @@
 require 'enumerator'
 
 class Dingo
-  DEFAULT_WORD_PATH = "../../dingo.txt"
+  DEFAULT_WORD_PATH = File.expand_path("../../dingo.txt", __FILE__)
   SENTENCE_LENGTH   = 6
 
   class << self
@@ -33,7 +33,7 @@ class Dingo
     end
 
     def aussie_copy
-      @aussie_copy ||= File.read(File.expand_path(DEFAULT_WORD_PATH, __FILE__)).lines.map(&:chomp)
+      @aussie_copy ||= File.read(DEFAULT_WORD_PATH).lines.map(&:chomp)
     end
 
     def aussie_word(source_words, random)
