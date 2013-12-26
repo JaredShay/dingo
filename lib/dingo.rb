@@ -6,27 +6,15 @@ class Dingo
 
   class << self
     def words(random: Random.new, source_words: aussie_copy)
-      Enumerator.new do |y|
-        loop do
-          y.yield aussie_word(source_words, random)
-        end
-      end
+      infinite_sequence { aussie_word(source_words, random) }
     end
 
     def sentences(random: Random.new, source_words: aussie_copy)
-      Enumerator.new do |y|
-        loop do
-          y.yield aussie_sentence(source_words, random)
-        end
-      end
+      infinite_sequence { aussie_sentence(source_words, random) }
     end
 
     def paragraphs(random: Random.new, source_words: aussie_copy)
-      Enumerator.new do |y|
-        loop do
-          y.yield aussie_paragraph(source_words, random)
-        end
-      end
+      infinite_sequence { aussie_paragraph(source_words, random) }
     end
 
     def reset
@@ -35,6 +23,14 @@ class Dingo
     end
 
     private
+
+    def infinite_sequence(&block)
+      Enumerator.new do |y|
+        loop do
+          y.yield block.call
+        end
+      end
+    end
 
     def aussie_copy
       @aussie_copy ||= File.read(File.expand_path(DEFAULT_WORD_PATH, __FILE__)).lines.map(&:chomp)
