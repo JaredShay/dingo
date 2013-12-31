@@ -1,8 +1,8 @@
 require 'enumerator'
 
 class Dingo
-  DEFAULT_WORD_PATH   = File.expand_path("../../dingo.txt", __FILE__)
-  DEFAULT_PEOPLE_PATH = File.expand_path("../../people.txt", __FILE__)
+  DEFAULT_WORD_PATH   = File.expand_path("../../word_lists/dingo.txt", __FILE__)
+  DEFAULT_PEOPLE_PATH = File.expand_path("../../word_lists/people.txt", __FILE__)
   SENTENCE_LENGTH     = 6
 
   class << self
