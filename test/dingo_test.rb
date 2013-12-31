@@ -11,10 +11,6 @@ class DingoTest < MiniTest::Unit::TestCase
     assert_equal 40, Dingo.words.take(40).length
   end
 
-  def test_makes_only_words
-    assert_equal [nil], Dingo.words(source_words: ["more than one word"]).take(1)
-  end
-
   def test_makes_sentences_with_full_stops
     assert_equal ".", Dingo.sentences.take(1).first[-1]
   end
@@ -29,6 +25,10 @@ class DingoTest < MiniTest::Unit::TestCase
 
   def test_makes_email_addresses
     assert_equal true, !Dingo.email_addresses.take(1)[0].match(/.*@.*/)[0].empty?
+  end
+
+  def test_removes_spaces_from_email_addresses
+    assert_equal ["a.b@a.com.au"], Dingo.email_addresses(source_words: ["a"], source_people: ["a b"]).take(1)
   end
 
   def setup
