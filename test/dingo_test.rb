@@ -27,6 +27,10 @@ class DingoTest < MiniTest::Unit::TestCase
     assert_equal true, !Dingo.paragraphs.take(1)[0].match(/(.*\..*){4}/)[0].empty?
   end
 
+  def test_makes_email_addresses
+    assert_equal true, !Dingo.email_addresses.take(1)[0].match(/.*@.*/)[0].empty?
+  end
+
   def setup
     Dingo.reset
   end

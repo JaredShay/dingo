@@ -17,6 +17,10 @@ class Dingo
       infinite_sequence { aussie_paragraph(source_words, random) }
     end
 
+    def email_addresses(random: Random.new, source_words: aussie_copy)
+      infinite_sequence { aussie_email_address(source_words, random) }
+    end
+
     def reset
       @aussie_copy = nil
       @source_words = nil
@@ -49,6 +53,10 @@ class Dingo
 
     def aussie_paragraph(source_words, random)
       sentences.take(4).join(" ")
+    end
+
+    def aussie_email_address(source_words, random)
+      aussie_word(source_words, random) + "@" + aussie_word(source_words, random)
     end
   end
 end
