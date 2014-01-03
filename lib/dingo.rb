@@ -17,8 +17,9 @@ class Dingo
                  paragraph_length: 4)
 
     @random           = random
-    @source_words     = source_words
+    @source_words     = source_words.select { |w| !w.include?(" ") }
     @source_people    = source_people
+    @all_words        = source_words + source_people
     @sentence_length  = sentence_length
     @paragraph_length = paragraph_length
   end
@@ -48,7 +49,7 @@ class Dingo
   end
 
   def sentence
-    sentence = @source_words.
+    sentence = @all_words.
       sample(@sentence_length, random: @random).
       join(" ") + "."
     sentence.capitalize!
