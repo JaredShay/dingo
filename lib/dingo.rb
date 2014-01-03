@@ -67,7 +67,7 @@ class Dingo
     def words;      dingo(random: Random.new).words; end
     def sentences;  dingo(random: Random.new).sentences; end
     def paragraphs; dingo(random: Random.new).paragraphs; end
-    def people;     dingo(random: Random.new).pepole; end
+    def people;     dingo(random: Random.new).people; end
     def emails;     dingo(random: Random.new).emails; end
 
     private

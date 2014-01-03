@@ -49,6 +49,14 @@ class DingoTest < MiniTest::Unit::TestCase
     assert_equal true, !!(dingo.paragraphs.take(1)[0].match(/(.*\..*){2}/)[0])
   end
 
+  def test_class_api
+    assert Dingo.words.take(1)
+    assert Dingo.sentences.take(1)
+    assert Dingo.paragraphs.take(1)
+    assert Dingo.people.take(1)
+    assert Dingo.emails.take(1)
+  end
+
   def dingo(opts = {})
     Dingo.new(opts)
   end
