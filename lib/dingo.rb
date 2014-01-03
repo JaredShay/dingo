@@ -1,9 +1,14 @@
 require 'enumerator'
+require 'forwardable'
 
 class Dingo
+  extend SingleForwardable
+
   dir = "../../word_lists/"
   DEFAULT_WORD_PATH   = File.expand_path(dir + "dingo.txt", __FILE__)
   DEFAULT_PEOPLE_PATH = File.expand_path(dir + "people.txt", __FILE__)
+
+  def_delegators :dingo, :words, :sentences, :paragraphs, :people, :emails
 
   def initialize(random:           Random.new,
                  source_words:     read_file(DEFAULT_WORD_PATH),
@@ -63,13 +68,6 @@ class Dingo
   end
 
   class << self
-    #TODO make these delegate ala rails style for great readability
-    def words;      dingo(random: Random.new).words; end
-    def sentences;  dingo(random: Random.new).sentences; end
-    def paragraphs; dingo(random: Random.new).paragraphs; end
-    def people;     dingo(random: Random.new).people; end
-    def emails;     dingo(random: Random.new).emails; end
-
     private
 
     def dingo(random: Random.new)
