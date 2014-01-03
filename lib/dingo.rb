@@ -1,12 +1,13 @@
 require 'enumerator'
 
 class Dingo
-  DEFAULT_WORD_PATH   = File.expand_path("../../word_lists/dingo.txt", __FILE__)
-  DEFAULT_PEOPLE_PATH = File.expand_path("../../word_lists/people.txt", __FILE__)
+  dir = "../../word_lists/"
+  DEFAULT_WORD_PATH   = File.expand_path(dir + "dingo.txt", __FILE__)
+  DEFAULT_PEOPLE_PATH = File.expand_path(dir + "people.txt", __FILE__)
 
   def initialize(random:           Random.new,
-                 source_words:     initialize_source_words,
-                 source_people:    initialize_source_people,
+                 source_words:     read_file(DEFAULT_WORD_PATH),
+                 source_people:    read_file(DEFAULT_PEOPLE_PATH),
                  sentence_length:  6,
                  paragraph_length: 4)
 
@@ -17,12 +18,16 @@ class Dingo
     @paragraph_length = paragraph_length
   end
 
-  def initialize_source_words
-    File.read(DEFAULT_WORD_PATH).lines.map(&:chomp)
-  end
+  def words;      infinite_sequence { word } end
+  def sentences;  infinite_sequence { sentence } end
+  def paragraphs; infinite_sequence { paragraph } end
+  def people;     infinite_sequence { person } end
+  def emails;     infinite_sequence { email } end
 
-  def initialize_source_people
-    File.read(DEFAULT_PEOPLE_PATH).lines.map(&:chomp)
+  private
+
+  def read_file(file_path)
+    File.read(file_path).lines.map(&:chomp)
   end
 
   def infinite_sequence(&block)
@@ -33,33 +38,38 @@ class Dingo
     end
   end
 
-  def self.words; dingo(random: Random.new).words; end
-  def words;      infinite_sequence { word }; end
-  def word;       @source_words.sample(random: @random); end
+  def word
+    @source_words.sample(random: @random)
+  end
 
-  def self.sentences; dingo(random: Random.new).sentences; end
-  def sentences;      infinite_sequence { sentence }; end
   def sentence
-    sentence = @source_words.sample(@sentence_length, random: @random).join(" ") + "."
+    sentence = @source_words.
+      sample(@sentence_length, random: @random).
+      join(" ") + "."
     sentence.capitalize!
     sentence
   end
 
-  def self.paragraphs; dingo(random: Random.new).paragraphs; end
-  def paragraphs;      infinite_sequence { paragraph }; end
-  def paragraph;       sentences.take(@paragraph_length).join(" "); end
+  def paragraph
+    sentences.take(@paragraph_length).join(" ")
+  end
 
-  def self.people; dingo(random: Random.new).pepole; end
-  def people;      infinite_sequence { person }; end
-  def person;      @source_people.sample(random: @random); end
+  def person
+    @source_people.sample(random: @random)
+  end
 
-  def self.emails; dingo(random: Random.new).emails; end
-  def emails;      infinite_sequence { email }; end
   def email
     people.take(1)[0].gsub(" ", ".") + "@" + words.take(1)[0] + ".com.au"
   end
 
   class << self
+    #TODO make these delegate ala rails style for great readability
+    def words;      dingo(random: Random.new).words; end
+    def sentences;  dingo(random: Random.new).sentences; end
+    def paragraphs; dingo(random: Random.new).paragraphs; end
+    def people;     dingo(random: Random.new).pepole; end
+    def emails;     dingo(random: Random.new).emails; end
+
     private
 
     def dingo(random: Random.new)
