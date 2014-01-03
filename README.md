@@ -1,13 +1,11 @@
-Dingo
---
+# Dingo
 
 Dingo generates copy. Because you're a real aussie and are too lazy to write
 your own.
 
 It works by generating an infinite sequences of Australian flavoured copy.
 
-API
---
+## API
 
 ```
 dingo = Dingo.new
@@ -41,8 +39,7 @@ Dingo.people.take(1)
 Dingo.emails.take(1)
 ```
 
-Configurables
---
+## Configurables
 
 ```
 Dingo.new(
