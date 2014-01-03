@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-
 require 'dingo'
 
 class DingoTest < MiniTest::Unit::TestCase
@@ -39,9 +38,11 @@ class DingoTest < MiniTest::Unit::TestCase
   end
 
   def test_configurable_sentence_length
-    dingo = dingo(sentence_length: 2,
-                  source_words: ["a", "b", "c"],
-                  source_people: [])
+    dingo = dingo(
+      sentence_length: 2,
+      source_words: ["a", "b", "c"],
+      source_people: []
+    )
 
     # length 4 to account for a space and fullstop
     assert_equal 4, dingo.sentences.take(1)[0].length

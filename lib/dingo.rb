@@ -10,11 +10,13 @@ class Dingo
 
   def_delegators :dingo, :words, :sentences, :paragraphs, :people, :emails
 
-  def initialize(random:           Random.new,
-                 source_words:     read_file(DEFAULT_WORD_PATH),
-                 source_people:    read_file(DEFAULT_PEOPLE_PATH),
-                 sentence_length:  6,
-                 paragraph_length: 4)
+  def initialize(
+    random:           Random.new,
+    source_words:     read_file(DEFAULT_WORD_PATH),
+    source_people:    read_file(DEFAULT_PEOPLE_PATH),
+    sentence_length:  6,
+    paragraph_length: 4
+  )
 
     @random           = random
     @source_words     = source_words.select { |w| !w.include?(" ") }
