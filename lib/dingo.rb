@@ -4,79 +4,65 @@ class Dingo
   DEFAULT_WORD_PATH   = File.expand_path("../../word_lists/dingo.txt", __FILE__)
   DEFAULT_PEOPLE_PATH = File.expand_path("../../word_lists/people.txt", __FILE__)
   SENTENCE_LENGTH     = 6
+  PARAGRAPH_LENGTH    = 4
 
-  class << self
-    def words(random: Random.new, source_words: aussie_words)
-      infinite_sequence { aussie_word(source_words, random) }
-    end
+  def initialize(random:        Random.new,
+                 source_words:  initialize_source_words,
+                 source_people: initialize_source_people)
 
-    def sentences(random: Random.new, source_words: aussie_copy)
-      infinite_sequence { aussie_sentence(source_words, random) }
-    end
+    @random        = random
+    @source_words  = source_words
+    @source_people = source_people
+  end
 
-    def paragraphs(random: Random.new, source_words: aussie_copy)
-      infinite_sequence { aussie_paragraph(source_words, random) }
-    end
+  def initialize_source_words
+    File.read(DEFAULT_WORD_PATH).lines.map(&:chomp)
+  end
 
-    def people(random: Random.new, source_words: aussie_people)
-      infinite_sequence { aussie_person(source_words, random) }
-    end
+  def initialize_source_people
+    File.read(DEFAULT_PEOPLE_PATH).lines.map(&:chomp)
+  end
 
-    def email_addresses(random: Random.new, source_words: aussie_words, source_people: aussie_people)
-      infinite_sequence { aussie_email_address(source_words, source_people, random) }
-    end
-
-    def reset
-      @aussie_copy = nil
-      @source_words = nil
-    end
-
-    private
-
-    def infinite_sequence(&block)
-      Enumerator.new do |y|
-        loop do
-          y.yield block.call
-        end
+  def infinite_sequence(&block)
+    Enumerator.new do |y|
+      loop do
+        y.yield block.call
       end
     end
+  end
 
-    def aussie_copy
-      @aussie_copy ||= File.read(DEFAULT_WORD_PATH).lines.map(&:chomp) +
-                       aussie_people
-    end
+  def self.words; dingo(random: Random.new).words; end
+  def words;      infinite_sequence { word }; end
+  def word;       @source_words.sample(random: @random); end
 
-    def aussie_people
-      @aussie_people ||= File.read(DEFAULT_PEOPLE_PATH).lines.map(&:chomp)
-    end
+  def self.sentences; dingo(random: Random.new).sentences; end
+  def sentences;      infinite_sequence { sentence }; end
+  def sentence
+    sentence = @source_words.sample(SENTENCE_LENGTH, random: @random).join(" ") + "."
+    sentence.capitalize!
+    sentence
+  end
 
-    def aussie_person(source_words, random)
-      source_words.sample(random: random)
-    end
+  def self.paragraphs; dingo(random: Random.new).paragraphs; end
+  def paragraphs;      infinite_sequence { paragraph }; end
+  def paragraph;       sentences.take(PARAGRAPH_LENGTH).join(" "); end
 
-    def aussie_email_address(source_words, source_people, random)
-      source_people.sample(random: random).gsub(" ", ".") +
-      "@" +
-      source_words.sample(random: random) +
-      ".com.au"
-    end
+  def self.people; dingo(random: Random.new).pepole; end
+  def people;      infinite_sequence { person }; end
+  def person;      @source_people.sample(random: @random); end
 
-    def aussie_words
-      @aussie_copy ||= aussie_copy.select { |w| !w.include?(" ") }
-    end
+  def self.emails; dingo(random: Random.new).emails; end
+  def emails;      infinite_sequence { email }; end
+  def email
+    people.take(1)[0].gsub(" ", ".") + "@" + words.take(1)[0] + ".com.au"
+  end
 
-    def aussie_word(source_words, random)
-      source_words.sample(random: random)
-    end
 
-    def aussie_sentence(source_words, random)
-      sentence = source_words.sample(SENTENCE_LENGTH, random: random).join(" ") + "."
-      sentence.capitalize!
-      sentence
-    end
+  class << self
+    private
 
-    def aussie_paragraph(source_words, random)
-      sentences(source_words: source_words, random: random).take(4).join(" ")
+    def dingo(random: Random.new)
+      @@dingo ||= Dingo.new(random: random)
     end
   end
 end

@@ -16,22 +16,27 @@ class DingoTest < MiniTest::Unit::TestCase
   end
 
   def test_makes_sentences_with_capital_letters
-    assert_equal "A", Dingo.sentences(source_words: ["abcdef"]).take(1).first[0]
+    dingo = Dingo.new(source_words: ["abcdef"])
+    assert_equal "A", dingo.sentences.take(1).first[0]
   end
 
   def test_makes_paragraphs
-    assert_equal true, !Dingo.paragraphs.take(1)[0].match(/(.*\..*){4}/)[0].empty?
+    dingo = Dingo.new
+    assert_equal true, !!(dingo.paragraphs.take(1)[0].match(/(.*\..*){4}/)[0])
+  end
+
+  def test_makes_people
+    dingo = Dingo.new(source_people: ["naul pewman"])
+    assert_equal ["naul pewman"], dingo.people.take(1)
   end
 
   def test_makes_email_addresses
-    assert_equal true, !Dingo.email_addresses.take(1)[0].match(/.*@.*/)[0].empty?
+    dingo = Dingo.new
+    assert_equal true, !!(dingo.emails.take(1)[0].match(/.*@.*/)[0])
   end
 
   def test_removes_spaces_from_email_addresses
-    assert_equal ["a.b@a.com.au"], Dingo.email_addresses(source_words: ["a"], source_people: ["a b"]).take(1)
-  end
-
-  def setup
-    Dingo.reset
+    dingo = Dingo.new(source_words: ["domain"], source_people: ["san holo"])
+    assert_equal ["san.holo@domain.com.au"], dingo.emails.take(1)
   end
 end
