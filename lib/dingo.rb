@@ -3,16 +3,18 @@ require 'enumerator'
 class Dingo
   DEFAULT_WORD_PATH   = File.expand_path("../../word_lists/dingo.txt", __FILE__)
   DEFAULT_PEOPLE_PATH = File.expand_path("../../word_lists/people.txt", __FILE__)
-  SENTENCE_LENGTH     = 6
-  PARAGRAPH_LENGTH    = 4
 
-  def initialize(random:        Random.new,
-                 source_words:  initialize_source_words,
-                 source_people: initialize_source_people)
+  def initialize(random:           Random.new,
+                 source_words:     initialize_source_words,
+                 source_people:    initialize_source_people,
+                 sentence_length:  6,
+                 paragraph_length: 4)
 
-    @random        = random
-    @source_words  = source_words
-    @source_people = source_people
+    @random           = random
+    @source_words     = source_words
+    @source_people    = source_people
+    @sentence_length  = sentence_length
+    @paragraph_length = paragraph_length
   end
 
   def initialize_source_words
@@ -38,14 +40,14 @@ class Dingo
   def self.sentences; dingo(random: Random.new).sentences; end
   def sentences;      infinite_sequence { sentence }; end
   def sentence
-    sentence = @source_words.sample(SENTENCE_LENGTH, random: @random).join(" ") + "."
+    sentence = @source_words.sample(@sentence_length, random: @random).join(" ") + "."
     sentence.capitalize!
     sentence
   end
 
   def self.paragraphs; dingo(random: Random.new).paragraphs; end
   def paragraphs;      infinite_sequence { paragraph }; end
-  def paragraph;       sentences.take(PARAGRAPH_LENGTH).join(" "); end
+  def paragraph;       sentences.take(@paragraph_length).join(" "); end
 
   def self.people; dingo(random: Random.new).pepole; end
   def people;      infinite_sequence { person }; end
@@ -56,7 +58,6 @@ class Dingo
   def email
     people.take(1)[0].gsub(" ", ".") + "@" + words.take(1)[0] + ".com.au"
   end
-
 
   class << self
     private

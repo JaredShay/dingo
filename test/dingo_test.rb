@@ -39,4 +39,15 @@ class DingoTest < MiniTest::Unit::TestCase
     dingo = Dingo.new(source_words: ["domain"], source_people: ["san holo"])
     assert_equal ["san.holo@domain.com.au"], dingo.emails.take(1)
   end
+
+  def test_configurable_sentence_length
+    dingo = Dingo.new(sentence_length: 2, source_words: ["a", "b", "c"])
+    # length 4 to account for a space and fullstop
+    assert_equal 4, dingo.sentences.take(1)[0].length
+  end
+
+  def test_configurable_paragraph_length
+    dingo = Dingo.new(paragraph_length: 2)
+    assert_equal true, !!(dingo.paragraphs.take(1)[0].match(/(.*\..*){2}/)[0])
+  end
 end
