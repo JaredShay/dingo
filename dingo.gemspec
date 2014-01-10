@@ -8,5 +8,5 @@ Gem::Specification.new do |gem|
   gem.files         = Dir["{lib,test}/**/*.rb"] + %w(README.md dingo.txt)
   gem.name          = "dingo"
   gem.require_paths = ["lib"]
-  gem.version       = '1.0.1'
+  gem.version       = '1.2.0'
 end
