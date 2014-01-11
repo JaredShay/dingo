@@ -26,13 +26,17 @@ class Dingo
     @paragraph_length = paragraph_length
   end
 
-  def words(x);      infinite_sequence { word }.take(x) end
-  def sentences(x);  infinite_sequence { sentence }.take(x) end
-  def paragraphs(x); infinite_sequence { paragraph }.take(x) end
-  def people(x);     infinite_sequence { person }.take(x) end
-  def emails(x);     infinite_sequence { email }.take(x) end
+  def words(x);      take_from_infinite_sequence(x, word); end
+  def sentences(x);  take_from_infinite_sequence(x, sentence); end
+  def paragraphs(x); take_from_infinite_sequence(x, paragraph); end
+  def people(x);     take_from_infinite_sequence(x, person); end
+  def emails(x);     take_from_infinite_sequence(x, email); end
 
   private
+
+  def take_from_infinite_sequence(x, thing)
+    infinite_sequence { thing }.take(x)
+  end
 
   def read_file(file_path)
     File.read(file_path).lines.map(&:chomp)
