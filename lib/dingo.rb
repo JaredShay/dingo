@@ -26,11 +26,11 @@ class Dingo
     @paragraph_length = paragraph_length
   end
 
-  def words;      infinite_sequence { word } end
-  def sentences;  infinite_sequence { sentence } end
-  def paragraphs; infinite_sequence { paragraph } end
-  def people;     infinite_sequence { person } end
-  def emails;     infinite_sequence { email } end
+  def words(x);      infinite_sequence { word }.take(x) end
+  def sentences(x);  infinite_sequence { sentence }.take(x) end
+  def paragraphs(x); infinite_sequence { paragraph }.take(x) end
+  def people(x);     infinite_sequence { person }.take(x) end
+  def emails(x);     infinite_sequence { email }.take(x) end
 
   private
 
@@ -59,7 +59,7 @@ class Dingo
   end
 
   def paragraph
-    sentences.take(@paragraph_length).join(" ")
+    sentences(@paragraph_length).join(" ")
   end
 
   def person
@@ -67,7 +67,7 @@ class Dingo
   end
 
   def email
-    people.take(1)[0].gsub(" ", ".") + "@" + words.take(1)[0] + ".com.au"
+    people(1)[0].gsub(" ", ".") + "@" + words(1)[0] + ".com.au"
   end
 
   class << self
